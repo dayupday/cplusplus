@@ -1,0 +1,44 @@
+(1)STL中map通过键－值的形式保证一一对应关系;
+(2)multimap则可以出现一对多的关系，这两种数据类型在存储数据时，会根据pair<>的first成员进行排序;
+不同的是前者将不会插入对first成员重复的结构，而后者可以。
+
+
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+bool strict_weak_ordering(const pair<int,string> a, const pair<int,string> b)
+{
+    return a.first > b.first;
+}
+
+int main()
+{
+    vector<pair<int, string> > vec;
+
+    vec.push_back(make_pair<int, string>(5, "bingo"));
+    vec.push_back(make_pair<int, string>(4, "bing"));
+    vec.push_back(make_pair<int, string>(6, "acbingo"));
+    vec.push_back(make_pair<int, string>(6, "ACBingo"));
+    vec.push_back(make_pair<int, string>(6, "ACBingo"));
+    vec[3].first++;
+    sort(vec.begin(), vec.end(), strict_weak_ordering);
+ 
+    vector<pair<int, string> >::iterator it = vec.begin(), end = vec.end();
+    for (;it!=end;++it) cout<<it->first<<endl;
+
+    for (int i=0;i<vec.size();i++)  cout<<vec[i].second<<endl;
+    return 0;
+}
+
+[root@iZwz9a9kyixoqvys89ewj4Z cplusplus]# ./a.out 
+7
+6
+6
+5
+4
+ACBingo
+acbingo
+ACBingo
+bingo
+bing
